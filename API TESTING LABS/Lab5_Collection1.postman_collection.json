@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "d7c4b03e-9cdd-4d2b-bc0b-88998a8b62f6",
+		"name": "Lab5_Collection1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38587371",
+		"_collection_link": "https://gold-satellite-615070.postman.co/workspace/My-Workspace~85e2247b-0ce7-4cbb-8db8-b3bbe57656d4/collection/38587371-d7c4b03e-9cdd-4d2b-bc0b-88998a8b62f6?action=share&source=collection_link&creator=38587371"
+	},
+	"item": [
+		{
+			"name": "Get",
+			"item": [
+				{
+					"name": "List user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"let userIds = response.data.map(user => user.id);\r",
+									"\r",
+									"// Log each user id\r",
+									"userIds.forEach(id => console.log(\"User ID:\", id));\r",
+									"\r",
+									"// Set the first user's ID as an environment variable, if needed\r",
+									"pm.environment.set(\"firstUserId\", userIds[0]);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users?page=2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Check if 'id' exists in the response, and save it as 'createdUserId'\r",
+									"if (response.id) {\r",
+									"    pm.environment.set(\"createdUserId\", response.id);\r",
+									"    console.log(\"Created User ID:\", response.id);\r",
+									"} else {\r",
+									"    console.log(\"User ID not found in the response\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"job\": \"Developer\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}/users"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
